@@ -3,7 +3,7 @@
 Node HTTP/HTTPS Forward Proxy Agent
 ===
 
-This a Node http agent capable of forward proxying HTTP/HTTPS requests.
+This is a node http agent capable of forward proxying HTTP/HTTPS requests.
 
 It supports the following:
 * Connect to a proxy with either HTTP or HTTPS
