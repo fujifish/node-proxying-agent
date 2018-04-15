@@ -10,6 +10,7 @@ It supports the following:
 * Proxying to a remote server using SSL tunneling (via the http CONNECT method)
 * Authenticate with a proxy with Basic authentication
 * Authenticate with a proxy with NTLM authentication (beta)
+* Set a global agent for all http and https requests
 
 The agent inherits directly from the ``http.Agent`` Node object so it benefits from all
 the socket handling goodies that come with it.
@@ -28,13 +29,25 @@ Returns a new agent configured correctly to proxy to the specified target.
   * `proxy` - Specifies the proxy url. The supported format is `http[s]://[auth@]host:port` where `auth`
     is the authentication information in the form of `username:password`. The authentication information can also be
     in the form of a Base64 encoded `user:password`, e.g. `http://dXNlcm5hbWU6cGFzc3dvcmQ=@proxy.example.com:8080`.
-    if the username for NTLM needs to be in the `domain\username` format, specify `domain%5Cusername` instead. 
-  * `tlsOptions` - TLS connection options to use when the target server protocol is `https`. See http://nodejs.org/api/tls.html#tls_tls_connect_options_callback for a list of available options.
-  * `authType` - Proxy authentication type. Possible values are `basic` and `ntlm` (default is `basic`).
+    if the username for NTLM needs to be in the `domain\username` format, specify `domain%5Cusername` instead
+  * `tlsOptions` - TLS connection options to use when the target server protocol is `https`. See http://nodejs.org/api/tls.html#tls_tls_connect_options_callback for a list of available options
+  * `authType` - Proxy authentication type. Possible values are `basic` and `ntlm` (default is `basic`)
   * `ntlm` - (beta) applicable only if `authType` is `ntlm`. Supported fields:
     * `domain` (required) - the NTLM domain
     * `workstation` (optional) - the local machine hostname (os.hostname() is not specified)
 * `target` - the target url that the agent is to proxy
+
+### globalize(options)
+
+Set a global agent to forward all http and https requests through the specified proxy.
+Make sure to call this method before invoking any other http request.
+After `globalize` is invoked, all http and https requests will automatically tunnel through the proxy. 
+
+* `options` - See `create` method
+
+```javascript
+  require('proxying-agent').globalize('http://proxy.example.com:8080');
+````
 
 ### HTTP Server
 
